@@ -2,10 +2,21 @@
  * Created by USER on 18-Jun-17.
  */
 const  Sequelize = require('sequelize');
+const config =  require('../config/config');
+const db = new Sequelize({
+    username: config.username,
+    password: config.password,
+    database: 'eventdb',
+    host: 'localhost',
+    dialect: 'mysql',
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
+});
 
-const db = new Sequelize('manager','eventpass','evendb');
-
-const User = db.define({
+const User = db.define('user',{
     id:{
         type:Sequelize.INTEGER,
         primaryKey:true,
@@ -18,6 +29,6 @@ const User = db.define({
     password:Sequelize.STRING
 });
 
-db.sync({force:false});
+db.sync({force:true});
 
 module.exports = User;
